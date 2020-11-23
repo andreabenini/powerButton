@@ -165,7 +165,29 @@ Wire Wire Line
 	6750 4150 6850 4150
 Wire Wire Line
 	6850 4150 6850 3900
+Connection ~ 6850 4150
+$Comp
+L Connector:Conn_01x01_Male J2
+U 1 1 5FBC60A1
+P 8850 4150
+F 0 "J2" H 8822 4082 50  0000 R CNN
+F 1 "Raspberry Pi Input" H 8822 4173 50  0000 R CNN
+F 2 "" H 8850 4150 50  0001 C CNN
+F 3 "~" H 8850 4150 50  0001 C CNN
+	1    8850 4150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:Conn_01x03_Male J1
+U 1 1 5FBC4F8A
+P 4450 1050
+F 0 "J1" V 4250 1050 50  0000 C CNN
+F 1 "Vout Vin Gnd" V 4400 1050 50  0000 C CNN
+F 2 "" H 4450 1050 50  0001 C CNN
+F 3 "~" H 4450 1050 50  0001 C CNN
+	1    4450 1050
+	0    1    1    0   
+$EndComp
 Wire Wire Line
 	6850 4150 8650 4150
-Connection ~ 6850 4150
 $EndSCHEMATC
