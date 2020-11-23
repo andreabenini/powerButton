@@ -8,3 +8,6 @@
     Usually related to arduino circuits, basically just a relay with transistor and diode already
     connected. Always cheaper than creating the same circuit on your own, 50c for a piece from
     well known far east resellers
+- 1 2K2&#8486; resistor
+- 1 3k3&#8486; resistor
+- 1 10k&#8486; resistor
