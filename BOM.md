@@ -11,3 +11,4 @@
 - 1 2K2&#8486; resistor
 - 1 3k3&#8486; resistor
 - 1 10k&#8486; resistor
+- 1 1k&#8486; resistor
