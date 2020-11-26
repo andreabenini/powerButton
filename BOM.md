@@ -8,7 +8,11 @@
     Usually related to arduino circuits, basically just a relay with transistor and diode already
     connected. Always cheaper than creating the same circuit on your own, 50c for a piece from
     well known far east resellers
-- 1 2K2&#8486; resistor
-- 1 3k3&#8486; resistor
-- 1 10k&#8486; resistor
-- 1 1k&#8486; resistor
+- 2K2&#8486; resistor
+- 3k3&#8486; resistor
+- 10k&#8486; resistor
+- 1k&#8486; resistor
+- Push button, whatever you like
+
+Probably you already have these parts in your bench, it's really cheap and there's nothing fancy.
+Overall cost might be around ~2$
