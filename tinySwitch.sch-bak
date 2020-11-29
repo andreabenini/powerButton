@@ -5,13 +5,13 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "tinySwitch"
-Date "2020-11-22"
-Rev "1.0"
+Date "2020-11-26"
+Rev "1.1"
 Comp "Ben"
-Comment1 "ON/OFF switch for raspberry"
-Comment2 ""
+Comment1 ""
+Comment2 "Tiny85 USB with 1 channel relay"
 Comment3 ""
-Comment4 ""
+Comment4 "ON/OFF switch for Raspberry Pi"
 $EndDescr
 $Comp
 L Relay:DIPxx-1Axx-12xD K1
@@ -214,10 +214,92 @@ F 0 "J1" V 4650 2050 50  0000 R CNN
 F 1 "Conn_01x03" H 4530 1951 50  0001 L CNN
 F 2 "" H 4450 2000 50  0001 C CNN
 F 3 "~" H 4450 2000 50  0001 C CNN
-F 4 "Vout" V 4550 2250 50  0000 R CNN "vout"
-F 5 "Vin" V 4550 2050 50  0000 R CNN "vin"
-F 6 "Gnd" V 4550 1900 50  0000 R CNN "gnd"
+F 4 "VOut" V 4550 2250 50  0000 R CNN "vout"
+F 5 "VIn" V 4550 2050 50  0000 R CNN "vin"
+F 6 "GND" V 4550 1900 50  0000 R CNN "gnd"
 	1    4450 2000
 	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:Raspberry_Pi_2_3 JPi
+U 1 1 5FC39232
+P 2700 6400
+F 0 "JPi" H 2700 8100 50  0000 C CNN
+F 1 "Raspberry Pi" H 2700 8000 50  0000 C CNN
+F 2 "" H 2700 6400 50  0001 C CNN
+F 3 "https://www.raspberrypi.org/documentation/hardware/raspberrypi/schematics/rpi_SCH_3bplus_1p0_reduced.pdf" H 2700 6400 50  0001 C CNN
+	1    2700 6400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J3
+U 1 1 5FC472EA
+P 700 4750
+F 0 "J3" V 700 4850 50  0000 L CNN
+F 1 "Conn_01x02" H 780 4742 50  0001 L CNN
+F 2 "" H 700 4750 50  0001 C CNN
+F 3 "~" H 700 4750 50  0001 C CNN
+F 4 "Power Supply from microUSB cable (VOut, GND)" V 500 1800 50  0000 L CNN "Supply"
+F 5 "VOut" V 850 4600 50  0000 C CNN "Vcc"
+F 6 "GND" V 850 4800 50  0000 C CNN "GND"
+	1    700  4750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2500 5100 800  5100
+Wire Wire Line
+	800  5100 800  4950
+Wire Wire Line
+	2300 7700 700  7700
+Wire Wire Line
+	700  7700 700  4950
+$Comp
+L Connector_Generic:Conn_01x02 J4
+U 1 1 5FC64BB2
+P 1200 4750
+F 0 "J4" V 1200 4850 50  0000 L CNN
+F 1 "Conn_01x02" H 1280 4742 50  0001 L CNN
+F 2 "" H 1200 4750 50  0001 C CNN
+F 3 "~" H 1200 4750 50  0001 C CNN
+F 4 "Detect" H 1300 4750 50  0000 L CNN "Output"
+F 5 "Shutdown" H 1300 4650 50  0000 L CNN "Input"
+	1    1200 4750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1900 5500 1200 5500
+Wire Wire Line
+	1200 5500 1200 4950
+Wire Wire Line
+	3500 6100 3700 6100
+Wire Wire Line
+	3700 6100 3700 5000
+Wire Wire Line
+	3700 5000 1300 5000
+Wire Wire Line
+	1300 5000 1300 4950
+$Comp
+L Connector_Generic:Conn_01x02 J0
+U 1 1 5FC924C4
+P 1350 1800
+F 0 "J0" V 1350 1900 50  0000 L CNN
+F 1 "Conn_01x02" H 1430 1792 50  0001 L CNN
+F 2 "" H 1350 1800 50  0001 C CNN
+F 3 "~" H 1350 1800 50  0001 C CNN
+F 4 "Detect" V 1450 1800 50  0000 L CNN "Output"
+F 5 "Shutdown" V 1450 1350 50  0000 L CNN "Input"
+	1    1350 1800
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:Conn_01x02_Male J?
+U 1 1 5FC9740A
+P 1350 1400
+F 0 "J?" H 1412 1444 50  0001 L CNN
+F 1 "Conn_01x02_Male" V 1200 1650 50  0000 L CNN
+F 2 "" H 1350 1400 50  0001 C CNN
+F 3 "~" H 1350 1400 50  0001 C CNN
+	1    1350 1400
+	0    1    1    0   
 $EndComp
 $EndSCHEMATC
