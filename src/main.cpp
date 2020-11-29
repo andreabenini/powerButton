@@ -11,32 +11,36 @@
 #define RELAY_ON        LOW
 #define STATE_OFF       0
 #define STATE_ON        1
-#define TIME_STARTUP    10                      // Time for remote startup  [seconds]
-#define TIME_SHUTDOWN   30                      // Time for remote shutdown [seconds]
-#define TIME_DETECTION  5                       // Time for remote shutdown [seconds] when power is not detected anymore
+#define STATE_SHUTDOWN  2
+#define TIME_STARTUP    40                      // Appliance startup time                               [seconds]
+#define TIME_SHUTDOWN   40                      // Appliance max time for safe shutdown                 [seconds]
+#define TIME_DETECTION  5                       // If not detected for 5secs it can be shutted off      [seconds]
 
 byte
     mode,                                       // [State Finite] mode
     applianceState,                             // Remote appliance state (current and previous state)
+    applianceDetected,                          // Appliance detected at least one time. Without detection do not turn it off, never.
     buttonState,    buttonStatePrevious;        // Button state (current and previous state)
 unsigned long
-    startup,                                    // Startup time [with millis()]
-    shutdown;                                   // Shutdown sequence initiated
+    modeStart;                                  // Time spent after last switching/change [mode] [with millis()]
 
 void setup() {
     pinMode(PIN_BUTTON,     INPUT);
     pinMode(PIN_DETECTION,  INPUT);
     pinMode(PIN_RELAY,      OUTPUT);
     pinMode(PIN_SHUTDOWN,   OUTPUT);
-    turnOff();
+    modeOff();
 } /**/
 
 void loop() {
     buttonRead();
-    if (mode == STATE_ON) {
-        applianceRead();
+    switch (mode) {
+    case STATE_SHUTDOWN:
         turnOffIfNeeded();
-    } 
+    case STATE_ON:
+        applianceRead();
+        break;
+    }
 } /**/
 
 void buttonRead() {
@@ -44,15 +48,16 @@ void buttonRead() {
     buttonState = digitalRead(PIN_BUTTON);
     if (buttonState != buttonStatePrevious) {
         if (buttonState == HIGH) {                              // Button pressed
-            // set status
-            switch (mode) {
+            switch (mode) {                                     // Detect status
             case STATE_OFF:                                     // Turn ON the appliance
-                turnOn();
+                modeOn();
                 break;
             case STATE_ON:                                      // Turn it OFF, where possible
-                if (millis()-startup > TIME_STARTUP*1000) {     // Sending shutdown signal to appliance (only if appliance startup time has elapsed)
+                // Sending shutdown signal to appliance (only if appliance startup time has elapsed)
+                if (millis()-modeStart > (unsigned long) TIME_STARTUP*1000) {
                     digitalWrite(PIN_SHUTDOWN, HIGH);
-                    shutdown = millis();
+                    mode = STATE_SHUTDOWN;
+                    modeStart = millis();
                 }
                 break;
             }
@@ -62,33 +67,41 @@ void buttonRead() {
     }
 } /**/
 
-void turnOn() {
+void modeOn() {
     mode = STATE_ON;
-    shutdown = 0;
-    startup  = millis();
+    modeStart = millis();
+    applianceDetected = 0;
     digitalWrite(PIN_RELAY, RELAY_ON);
 } /**/
-void turnOff() {
+void modeOff() {
+    mode = STATE_OFF;
+    modeStart = 0;
     digitalWrite(PIN_SHUTDOWN, LOW);
     digitalWrite(PIN_RELAY,    RELAY_OFF);
-    shutdown = startup  = mode = STATE_OFF;
-    applianceState = buttonState = buttonStatePrevious = LOW;
+    buttonState = buttonStatePrevious = LOW;
 } /**/
+
 void turnOffIfNeeded() {
-    if (shutdown>0 && millis()-shutdown > TIME_SHUTDOWN*1000) {         // Remote not responding on time, brutal shutdown
-        turnOff();
+    // Remote not responding on time, brutal shutdown
+    if (millis()-modeStart > (unsigned long) TIME_SHUTDOWN*1000) {
+        modeOff();
     }
 } /**/
 
 // Read Appliance State
 void applianceRead() {
     applianceState = digitalRead(PIN_DETECTION);
-    if (applianceState == LOW) {                                        // change state
-        if (shutdown==0 && millis()-startup > TIME_STARTUP*1000) {      // Boot time expired, it's really turned off. Turn off relay
-            shutdown = millis();
+    if (applianceState == LOW) {                                // change state
+        // Boot time expired, it was previously detected but now it's off
+        if (millis()-modeStart > (unsigned long)TIME_STARTUP*1000  &&  applianceDetected > 0) {
+            if (applianceDetected <= TIME_DETECTION) {          // wait for a while...
+                delay(1000);
+                applianceDetected++;
+            } else {                                            // ...and turn it off after it
+                modeOff();
+            }
         }
-        if (shutdown>0 && millis()-shutdown > TIME_DETECTION*1000) {    // Turn it off after TIME_DETECTION delay
-            turnOff();
-        }
+    } else {
+        applianceDetected = 1;                                  // Detected at least one time !
     }
 } /**/
