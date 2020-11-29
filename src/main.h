@@ -7,5 +7,6 @@ void modeOff();
 void turnOffIfNeeded();
 void buttonRead();
 void applianceRead();
+void applianceDetectShutdown();
 
 #endif

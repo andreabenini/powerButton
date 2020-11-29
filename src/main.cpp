@@ -37,6 +37,8 @@ void loop() {
     switch (mode) {
     case STATE_SHUTDOWN:
         turnOffIfNeeded();
+        applianceDetectShutdown();
+        break;
     case STATE_ON:
         applianceRead();
         break;
@@ -55,6 +57,7 @@ void buttonRead() {
             case STATE_ON:                                      // Turn it OFF, where possible
                 // Sending shutdown signal to appliance (only if appliance startup time has elapsed)
                 if (millis()-modeStart > (unsigned long) TIME_STARTUP*1000) {
+                    // Shutdown mode setup
                     digitalWrite(PIN_SHUTDOWN, HIGH);
                     mode = STATE_SHUTDOWN;
                     modeStart = millis();
@@ -88,10 +91,27 @@ void turnOffIfNeeded() {
     }
 } /**/
 
+void applianceDetectShutdown() {
+    applianceState = digitalRead(PIN_DETECTION);
+    if (applianceState == LOW) {                                // appliance state changed (no input voltage)
+        // Boot time expired, it was previously detected but now it's off
+        if (applianceDetected > 0) {
+            if (applianceDetected <= TIME_DETECTION) {          // wait for a while...
+                delay(1000);
+                applianceDetected++;
+            } else {                                            // ...and turn it off after it
+                modeOff();
+            }
+        }
+    } else {
+        applianceDetected = 1;                                  // Detected at least one time !
+    }
+} /**/
+
 // Read Appliance State
 void applianceRead() {
     applianceState = digitalRead(PIN_DETECTION);
-    if (applianceState == LOW) {                                // change state
+    if (applianceState == LOW) {                                // appliance state changed (no input voltage)
         // Boot time expired, it was previously detected but now it's off
         if (millis()-modeStart > (unsigned long)TIME_STARTUP*1000  &&  applianceDetected > 0) {
             if (applianceDetected <= TIME_DETECTION) {          // wait for a while...
