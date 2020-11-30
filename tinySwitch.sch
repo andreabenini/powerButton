@@ -306,4 +306,6 @@ Wire Wire Line
 	2900 1750 2900 2150
 Wire Wire Line
 	3000 1750 3000 2150
+Text Notes 5700 3250 0    49   ~ 0
+Signal to toggle relay
 $EndSCHEMATC
