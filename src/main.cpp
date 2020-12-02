@@ -70,12 +70,14 @@ void buttonRead() {
     }
 } /**/
 
+// Turn appliance on
 void modeOn() {
     mode = STATE_ON;
     modeStart = millis();
     applianceDetected = 0;
     digitalWrite(PIN_RELAY, RELAY_ON);
 } /**/
+// Turn appliance off
 void modeOff() {
     mode = STATE_OFF;
     modeStart = 0;
