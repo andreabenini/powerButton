@@ -14,7 +14,7 @@
 #define STATE_SHUTDOWN  2
 #define TIME_STARTUP    40                      // Appliance startup time                               [seconds]
 #define TIME_SHUTDOWN   40                      // Appliance max time for safe shutdown                 [seconds]
-#define TIME_DETECTION  5                       // If not detected for 5secs it can be shutted off      [seconds]
+#define TIME_DETECTION  10                      // If not detected for 5secs it can be shutted off      [seconds]
 
 byte
     mode,                                       // [State Finite] mode
@@ -24,6 +24,7 @@ byte
 unsigned long
     modeStart;                                  // Time spent after last switching/change [mode] [with millis()]
 
+// Program setup
 void setup() {
     pinMode(PIN_BUTTON,     INPUT);
     pinMode(PIN_DETECTION,  INPUT);
@@ -32,6 +33,7 @@ void setup() {
     modeOff();
 } /**/
 
+// Main loop
 void loop() {
     buttonRead();
     switch (mode) {
@@ -45,8 +47,8 @@ void loop() {
     }
 } /**/
 
+// Read push button
 void buttonRead() {
-    // Read button
     buttonState = digitalRead(PIN_BUTTON);
     if (buttonState != buttonStatePrevious) {
         if (buttonState == HIGH) {                              // Button pressed
@@ -85,7 +87,7 @@ void modeOff() {
     digitalWrite(PIN_RELAY,    RELAY_OFF);
     buttonState = buttonStatePrevious = LOW;
 } /**/
-
+// Turn off the appliance after a while, if needed
 void turnOffIfNeeded() {
     // Remote not responding on time, brutal shutdown
     if (millis()-modeStart > (unsigned long) TIME_SHUTDOWN*1000) {
@@ -93,6 +95,7 @@ void turnOffIfNeeded() {
     }
 } /**/
 
+// Detect if appliance has been powered off or if it's still ON
 void applianceDetectShutdown() {
     applianceState = digitalRead(PIN_DETECTION);
     if (applianceState == LOW) {                                // appliance state changed (no input voltage)
@@ -110,16 +113,16 @@ void applianceDetectShutdown() {
     }
 } /**/
 
-// Read Appliance State
+// Read Appliance State when relay is ON, if it's not detected for more than TIME_DETECTION times relay will be turned off
 void applianceRead() {
     applianceState = digitalRead(PIN_DETECTION);
-    if (applianceState == LOW) {                                // appliance state changed (no input voltage)
+    if (applianceState == LOW) {                                // appliance state changed (no input voltage from device)
         // Boot time expired, it was previously detected but now it's off
         if (millis()-modeStart > (unsigned long)TIME_STARTUP*1000  &&  applianceDetected > 0) {
             if (applianceDetected <= TIME_DETECTION) {          // wait for a while...
                 delay(1000);
                 applianceDetected++;
-            } else {                                            // ...and turn it off after it
+            } else {                                            // ...and turn it off if it's not detected for a while
                 modeOff();
             }
         }
