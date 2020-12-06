@@ -1,5 +1,7 @@
 #!/usr/bin/python
 #
+# pylint: disable=import-error
+#
 import sys
 import time
 sys.path.append('/storage/.kodi/addons/virtual.rpi-tools/lib')
