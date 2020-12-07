@@ -1,7 +1,7 @@
 # tinySwitch
 Simple switch for controlling electronic devices like the Raspberry Pi
 
-### Preamble
+### *Preamble*
 This project was born due to some troubles related to Raspberry Pi device when used as a media
 center with Kodi. I'm a big fan of the RPi and XBMC/Kodi/LibreElec mashup, but not that much when
 you mix them with chinese low cost power supply units (PSUs) and so called "Smart TVs", the word
@@ -21,6 +21,12 @@ to control it, ATTiny85 seems to be a low voltage solution to achieve a viable w
 on these problems.  
 It might seems to be an overengineered solution but it's a viable and pratical way to solve this
 kind of mess.
+
+![Object preview](preview.jpg)
+_pretty rough but simple and works well_
+
+---
+
 
 ## Desired Solution
 _A simple appliance for a simple solution_.  
