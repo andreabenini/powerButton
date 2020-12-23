@@ -48,13 +48,8 @@ power from the relay.
 As simple as that, PDF and KiCad files with it.
 
 ## BOM
-- Digispark ATTiny85, usb is not used so a common attiny85 device might suffice but ready made boards
-(or clones) are really cheap and affordable for that
-- 1 channel relay, whatever thing will do, even solid state relays are fine with that
-- 1 button
-- Wires and a protoboard, dupont connectors, terminal blocks, nothing fancy here
-
-Complete schematics available as KiCad .sch file, ready made .pdf is available too
+see [BOM.md](BOM.md) for the full list.  
+Complete schematics available as KiCad .sch file but ready made .pdf is available too
 
 ## Software
 - source code available for the raspberry pi daemon (python) and the ATTiny85 device (C++
