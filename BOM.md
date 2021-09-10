@@ -14,5 +14,5 @@
 - 1k&#8486; resistor
 - Push button, whatever you like
 
-Probably you already have these parts in your bench, it's really cheap and there's nothing fancy.
-Overall cost might be around ~2$
+Probably you already have these parts in your bench, they're really cheap and there's nothing fancy.
+Overall cost might be around ~2$ (or free if you have them)
