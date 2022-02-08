@@ -22,7 +22,7 @@ on these problems.
 It might seems to be an overengineered solution but it's a viable and pratical way to solve this
 kind of mess.
 
-![Object preview](preview.jpg)
+![Object preview](attiny85/preview.jpg)
 _pretty rough but simple and works well_
 
 ---
@@ -48,7 +48,7 @@ power from the relay.
 As simple as that, PDF and KiCad files with it.
 
 ## BOM
-see [BOM.md](BOM.md) for the full list.  
+see [BOM.md](attiny85/BOM.md) for the full list.  
 Complete schematics available as KiCad .sch file but ready made .pdf is available too
 
 ## Software
