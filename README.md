@@ -1,4 +1,4 @@
-# tinySwitch
+# Power Button
 Simple switch for controlling electronic devices like the Raspberry Pi
 
 ### *Preamble*
